@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import {
   ApolloClient,
-  ApolloProvider
+  ApolloProvider,
+  createNetworkInterface,
 } from 'react-apollo'
 import {
   makeExecutableSchema,
   addMockFunctionsToSchema,
 } from 'graphql-tools'
-import { mockNetworkInterfaceWithSchema } from 'apollo-test-utils'
 import { typeDefs } from './schema'
 
-import ChannelsListWithData from './components/ChannelsList'
+import ChannelsListWithData from './components/ChannelsListWithData'
 import logo from './logo.svg';
 import './App.css';
 
 const schema = makeExecutableSchema({ typeDefs })
 addMockFunctionsToSchema({ schema })
 
-const mockNetworkInterface = mockNetworkInterfaceWithSchema({ schema })
+const networkInterface = createNetworkInterface({ uri: 'http://localhost:4000/graphql' })
 
 const client = new ApolloClient({
-  networkInterface: mockNetworkInterface,
+  networkInterface
 })
 
 class App extends Component {
@@ -30,7 +30,7 @@ class App extends Component {
         <div className="App">
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <h2>Welcome to Apollo</h2>
+            <h2>Welcome to GraphQL Messenger</h2>
           </div>
           <ChannelsListWithData />
         </div>
